@@ -1,0 +1,310 @@
+WindowManager:
+    MenuWindow:
+    HelpWindow:
+    ChooseWindow:
+    CalculationWindow:
+    ResultWindow:
+
+<Button>:
+    bold: True
+    background_normal: ''
+    background_color: (0, 0.7, 0.7, 1)
+    color: (0, 0.1, 0.2, 1)
+
+<Label>
+    canvas.before:
+        Color:
+            rgba: (0, 0.1, 0.2, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<MenuWindow>:
+    name: "menu"
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "hey.png"
+    BoxLayout:
+        padding: 20
+        spacing: 20
+        orientation: "vertical"
+        size: root.width, root.height
+
+
+
+        Button:
+            text: "START"
+            font_size: 28
+            size_hint: None, None
+            size: ('140dp', '80dp')
+            pos_hint: {'center_x': 0.5}
+            on_release:
+                root.manager.get_screen('choose').reset_choose()
+                app.root.current = "choose"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "HELP"
+            font_size: 28
+            size_hint: None, None
+            size: ('140dp', '80dp')
+            pos_hint: {'center_x': 0.5}
+            on_release:
+                app.root.current = "help"
+                root.manager.transition.direction = "up"
+
+<HelpWindow>:
+    name: "help"
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "help.png"
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 60
+        Button:
+            text: "BACK"
+            font_size: 28
+            size_hint: None, None
+            size: ('140dp', '80dp')
+            pos_hint: {'center_x': 0.5}
+            on_release:
+                app.root.current = "menu"
+                root.manager.transition.direction = "down"
+
+
+<ChooseWindow>:
+    name: "choose"
+    canvas.before:
+        Color:
+            rgba: (0, 0.1, 0.2, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        padding: 20
+        spacing: 20
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            color: (0, 0.7, 0.7, 1)
+            bold: True
+            text: root.my_text
+            font_size: 28
+
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 20
+            Button:
+                id: small_button
+                text: "SMALL"
+                font_size: 28
+                on_press: root.small_number()
+            Button:
+                id: big_button
+                text: "BIG"
+                font_size: 28
+                on_press: root.big_number()
+
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 20
+            Button:
+                text: "RESET"
+                font_size: 28
+                on_press: root.reset_choose()
+            Button:
+                id: start_button
+                disabled: True
+                text: "START"
+                font_size: 28
+                on_release:
+                    root.manager.get_screen('calculation').reset_goal()
+                    root.manager.get_screen('calculation').reset_calculation()
+                    app.root.current = "calculation"
+                    root.manager.transition.direction = "left"
+
+
+<CalculationWindow>:
+    name: "calculation"
+    canvas.before:
+        Color:
+            rgba: (0, 0.1, 0.2, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        padding: 20
+        spacing: 20
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            id: goal
+            text: ''
+            font_size: 34
+            color: (0, 0.7, 0.7, 1)
+            bold: True
+
+        TextInput:
+            id: calc_text
+            halign: 'right'
+            text: ""
+            font_size: 40
+            foreground_color: (0, 0.8, 0.8, 1)
+            background_color: (0, 0.01, 0.1, 1)
+
+        GridLayout:
+            cols: 5
+            spacing: 10
+            Button:
+                id: btn0
+                text: root.btn0_text
+                font_size: 24
+                size_hint: (1, None)
+                size: ('80dp', '80dp')
+                on_press:
+                    root.button_press(self)
+                    root.button_disable(btn0)
+            Button:
+                id: btn1
+                text: root.btn1_text
+                font_size: 24
+                size_hint: (1, None)
+                size: ('80dp', '80dp')
+                on_press:
+                    root.button_press(self)
+                    root.button_disable(btn1)
+            Button:
+                id: btn2
+                text: root.btn2_text
+                font_size: 24
+                size_hint: (1, None)
+                size: ('80dp', '80dp')
+                on_press:
+                    root.button_press(self)
+                    root.button_disable(btn2)
+            Button:
+                id: btn3
+                text: root.btn3_text
+                font_size: 24
+                size_hint: (1, None)
+                size: ('80dp', '80dp')
+                on_press:
+                    root.button_press(self)
+                    root.button_disable(btn3)
+            Button:
+                id: btn4
+                text: root.btn4_text
+                font_size: 24
+                size_hint: (1, None)
+                size: ('80dp', '80dp')
+                on_press:
+                    root.button_press(self)
+                    root.button_disable(btn4)
+
+        GridLayout:
+            cols: 4
+            spacing: 10
+            Button:
+                id: add
+                text: '+'
+                font_size: 24
+                on_press: root.button_press(self)
+            Button:
+                id: minus
+                text: '-'
+                font_size: 24
+                on_press: root.button_press(self)
+            Button:
+                id: multiply
+                text: '*'
+                font_size: 24
+                on_press: root.button_press(self)
+            Button:
+                id: divide
+                text: '/'
+                font_size: 24
+                on_press: root.button_press(self)
+            Button:
+                id: open
+                text: '('
+                font_size: 24
+                on_press: root.button_press(self)
+            Button:
+                id: close
+                text: ')'
+                font_size: 24
+                on_press: root.button_press(self)
+            Button:
+                id: clear
+                text: 'Clear'
+                font_size: 24
+                on_press: root.reset_calculation()
+            Button:
+                id: equals
+                text: '='
+                font_size: 24
+                on_press: root.calculate()
+
+        Button:
+            text: "SUBMIT"
+            font_size: 32
+            on_press:
+                root.submit_calculation()
+                root.manager.get_screen('result').update_result()
+                app.root.current = "result"
+                root.manager.transition.direction = "left"
+
+
+<ResultWindow>:
+    name: "result"
+    canvas.before:
+        Color:
+            rgba: (0, 0.1, 0.2, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        padding: 20
+        spacing: 20
+        orientation: "vertical"
+        size: root.width, root.height
+
+        Label:
+            text: root.result_label
+            font_size: 32
+            color: (0, 0.7, 0.7, 1)
+            bold: True
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 20
+            Button:
+                text: "Play Again"
+                font_size: 32
+                size_hint: (0.6, None)
+                size: ('120dp', '100dp')
+                pos_hint: {'center_x': 0.5}
+                on_release:
+                    root.manager.get_screen('choose').reset_choose()
+                    app.root.current = "choose"
+                    root.manager.transition.direction = "right"
+            Button:
+                text: "Menu"
+                font_size: 32
+                size_hint: (0.6, None)
+                size: ('120dp', '100dp')
+                pos_hint: {'center_x': 0.5}
+                on_release:
+                    app.root.current = "menu"
+                    root.manager.transition.direction = "left"
+
+
