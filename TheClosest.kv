@@ -7,13 +7,13 @@ WindowManager:
 
 <Button>:
     bold: True
-    font_size: "40dp"
+    font_size: 48
     background_normal: ''
     background_color: (0, 0.7, 0.7, 1)
     color: (0, 0.1, 0.2, 1)
 
 <Label>
-    font_size: "60dp"
+    font_size: 48
     canvas.before:
         Color:
             rgba: (0, 0.1, 0.2, 1)
@@ -33,8 +33,6 @@ WindowManager:
         spacing: 20
         orientation: "vertical"
         size: root.width, root.height
-
-
 
         Button:
             text: "START"
@@ -237,6 +235,7 @@ WindowManager:
                 on_press: root.button_press(self)
             Button:
                 id: clear
+                font_size: 24
                 text: 'Clear'
                 on_press: root.reset_calculation()
             Button:
@@ -247,7 +246,7 @@ WindowManager:
         Button:
             id: submit
             text: "SUBMIT"
-            font_size: "50dp"
+            font_size: "40dp"
             on_press:
                 root.submit_calculation()
                 root.manager.get_screen('result').update_result()
