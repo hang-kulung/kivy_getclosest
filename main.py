@@ -4,9 +4,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.lang import Builder
 from kivy.properties import StringProperty
-from kivy.core.window import Window
-
-Window.size = (400, 650)
+from kivy.uix.button import Button
 
 available = ["__"] * 5
 result = 0
@@ -64,12 +62,13 @@ class ChooseWindow(Screen):
 
 
 class CalculationWindow(Screen):
-    calculation = ''
+    calculation_text = StringProperty('')
     btn0_text = StringProperty('')
     btn1_text = StringProperty('')
     btn2_text = StringProperty('')
     btn3_text = StringProperty('')
     btn4_text = StringProperty('')
+
     soln = 0
     num_turn = True
     btnids = ['btn0', 'btn1', 'btn2', 'btn3', 'btn4']
@@ -91,6 +90,7 @@ class CalculationWindow(Screen):
         self.ids.multiply.disabled = False
         self.ids.divide.disabled = False
         self.ids.equals.disabled = False
+        self.ids.submit.disabled = False
 
         self.num_turn = False
 
@@ -112,12 +112,12 @@ class CalculationWindow(Screen):
         self.ids.multiply.disabled = True
         self.ids.divide.disabled = True
         self.ids.equals.disabled = True
+        self.ids.submit.disabled = True
 
         self.num_turn = True
 
     def button_press(self, btn):
-        self.calculation = self.calculation + btn.text
-        self.ids.calc_text.text = self.calculation
+        self.calculation_text = self.calculation_text + btn.text
 
         if len(self.btnids) == 0:
             self.ids.add.disabled = True
@@ -125,6 +125,7 @@ class CalculationWindow(Screen):
             self.ids.multiply.disabled = True
             self.ids.divide.disabled = True
             self.ids.equals.disabled = False
+            self.ids.submit.disabled = False
 
         if self.num_turn and btn.text != ")" and btn.text != "(":
             self.numbers_turn()
@@ -134,9 +135,8 @@ class CalculationWindow(Screen):
 
     def calculate(self):
         try:
-            self.soln = round(eval(self.calculation), 2)
-            self.calculation = str(self.soln)
-            self.ids.calc_text.text = str(self.soln)
+            self.soln = round(eval(self.calculation_text), 2)
+            self.calculation_text = str(self.soln)
         except ValueError:
             self.reset_calculation()
 
@@ -146,25 +146,25 @@ class CalculationWindow(Screen):
     def submit_calculation(self):
         global result
         try:
-            self.soln = eval(self.calculation)
+            self.soln = eval(self.calculation_text)
             result = self.goal - self.soln
         except ValueError:
             self.reset_calculation()
 
     def button_disable(self, btn):
-        if btn.text == self.btn0_text:
+        if btn.btn_id == 'btn0':
             self.ids.btn0.disabled = True
             self.btnids.remove('btn0')
-        elif btn.text == self.btn1_text:
+        elif btn.btn_id == 'btn1':
             self.ids.btn1.disabled = True
             self.btnids.remove('btn1')
-        elif btn.text == self.btn2_text:
+        elif btn.btn_id == 'btn2':
             self.ids.btn2.disabled = True
             self.btnids.remove('btn2')
-        elif btn.text == self.btn3_text:
+        elif btn.btn_id == 'btn3':
             self.ids.btn3.disabled = True
             self.btnids.remove('btn3')
-        elif btn.text == self.btn4_text:
+        elif btn.btn_id == 'btn4':
             self.ids.btn4.disabled = True
             self.btnids.remove('btn4')
 
@@ -174,10 +174,10 @@ class CalculationWindow(Screen):
             self.ids.multiply.disabled = True
             self.ids.divide.disabled = True
             self.ids.equals.disabled = False
+            self.ids.submit.disabled = False
 
     def reset_calculation(self):
-        self.calculation = ''
-        self.ids.calc_text.text = self.calculation
+        self.calculation_text = ''
         self.ids.goal.text = "GOAL : " + str(self.goal)
         self.num_turn = True
         self.btnids = ['btn0', 'btn1', 'btn2', 'btn3', 'btn4']
@@ -201,6 +201,7 @@ class CalculationWindow(Screen):
         self.ids.multiply.disabled = True
         self.ids.divide.disabled = True
         self.ids.equals.disabled = True
+        self.ids.submit.disabled = True
 
 
 class ResultWindow(Screen):
